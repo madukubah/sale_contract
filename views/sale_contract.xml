@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_contract_form" model="ir.ui.view">
+            <field name="name">sale.contract.form</field>
+            <field name="model">sale.contract</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Bank Statement">
+                <sheet>
+                    <div class="oe_title">
+                        <label for="name" class="oe_edit_only" string="Contract Name" ></label>
+                        <h1>
+                            <field name="name" />
+                        </h1>
+                    </div>
+                    <group>
+                        <group>
+                            <field name="start_date" />
+                            <field name="end_date" />
+                            <field name="base_price" />
+                            <field name="quantity" />
+                        </group>
+                    </group>
+                    <group>
+                        <group>
+                            <field name="ni_spec" />
+                        </group>
+                    </group>
+                    <group class="oe_title">
+                        <label for="fe_spec_from" string="Fe Specification (%)" ></label>
+                        <group>
+                            <field  name="fe_spec_from" />
+                        </group>
+                        <group>
+                            <field name="fe_spec_to" />
+                        </group>
+                    </group>
+                    <group class="oe_title">
+                        <label for="moisture_spec_from" string="Moisture Specification (%)" ></label>
+                        <group>
+                            <field  name="moisture_spec_from" />
+                        </group>
+                        <group>
+                            <field name="moisture_spec_to" />
+                        </group>
+                    </group>
+                    <group class="oe_title">
+                        <label for="mineral_spec_from" string="SiO2/MgO Specification" ></label>
+                        <group>
+                            <field  name="mineral_spec_from" />
+                        </group>
+                        <group>
+                            <field name="mineral_spec_to" />
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+    </record>
+</odoo>

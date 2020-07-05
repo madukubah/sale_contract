@@ -1,0 +1,31 @@
+<odoo>
+	<data>
+		
+		<!-- tambahi field instruktor di form-->
+		<record id="partner_instructor" model="ir.ui.view">
+			<field name="name">partner.instructor</field>
+			<field name="model">res.partner</field>
+			<field name="inherit_id" ref="base.view_partner_form" />
+			<field name="arch" type="xml">
+				<field name="website" position="after">
+					<field name="park_industry_id" />
+					<field name="contract_id" />
+				</field>
+			</field>
+		</record>
+
+		<!-- tambahi filter instruktor -->
+       <record id="view_res_partner_filter2" model="ir.ui.view">
+            <field name="name">res.partner.select2</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_res_partner_filter"/>
+            <field name="arch" type="xml">
+                <search string="Search Partner">
+	               <filter string="Park Industry" 
+    	           	 name="park_industry_id" help="Instructor Partners"/>
+				</search>
+			</field>
+		</record>
+
+	</data>
+</odoo>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_sale_park_industry_form" model="ir.ui.view">
+            <field name="name">sale.park.industry.form</field>
+            <field name="model">sale.park.industry</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Bank Statement">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="currency_80_pc" />
+                            <field name="currency_20_pc" />
+                        </group>
+                    </group>
+
+                    <notebook>
+                        <page string="Factories"  >
+                            <field name="factories_ids" editable="bottom" >
+                            </field >
+                        </page>
+                    </notebook>
+                </sheet>
+                </form>
+            </field>
+    </record>
+</odoo>

@@ -1,16 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <record model="ir.actions.act_window" id="action_pos_cash_back">
-        <field name="name">Cash Back</field>
-        <field name="res_model">pos.cashback</field>
+
+    <record model="ir.actions.act_window" id="action_contract">
+        <field name="name">Contract</field>
+        <field name="res_model">sale.contract</field>
         <field name="view_type">form</field>
         <field name="view_mode">tree,form</field>
     </record>
 
-    <menuitem name="Cash Back"
-            id="menu_pos_cashback"
-            action="action_pos_cash_back"
-            parent="point_of_sale.menu_point_config_product" 
+    <record model="ir.actions.act_window" id="action_industry">
+        <field name="name">Park Industry</field>
+        <field name="res_model">sale.park.industry</field>
+        <field name="view_type">form</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <menuitem name="Contract Management"
+              id="menu_sale_contract_management"
+              parent="sales_team.menu_base_partner" 
               />
+
+    <menuitem name="Contract"
+              id="menu_sale_contract"
+              parent="menu_sale_contract_management" 
+              action="action_contract"
+              sequence= "1"
+              />
+    
+    <menuitem name="Park Industry"
+              id="menu_sale_industry"
+              parent="menu_sale_contract_management" 
+              action="action_industry"
+              sequence= "2"
+              />
+
 </odoo>
