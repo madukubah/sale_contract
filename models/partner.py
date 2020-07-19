@@ -8,10 +8,12 @@ class Partner(models.Model):
 	park_industry_id = fields.Many2one(
 		'sale.park.industry', 
 		string='Park Industry', 
-		index=True
+		index=True,
+        store=True
 		)
 
 	contract_id = fields.Many2one(
 		'sale.contract',
 		string='Contract', 
+        store=True
 		)
