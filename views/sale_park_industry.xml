@@ -11,8 +11,8 @@
                     <group>
                         <group>
                             <field name="name" />
-                            <field name="currency_80_pc" />
-                            <field name="currency_20_pc" />
+                            <!-- <field name="currency_80_pc" />
+                            <field name="currency_20_pc" /> -->
                         </group>
                     </group>
 

@@ -1,7 +1,7 @@
 <odoo>
 	<data>
 		
-		<!-- tambahi field instruktor di form-->
+		<!-- tambahi field Park Industry di form-->
 		<record id="partner_instructor" model="ir.ui.view">
 			<field name="name">partner.instructor</field>
 			<field name="model">res.partner</field>
@@ -14,7 +14,7 @@
 			</field>
 		</record>
 
-		<!-- tambahi filter instruktor -->
+		<!-- tambahi filter Park Industry -->
        <record id="view_res_partner_filter2" model="ir.ui.view">
             <field name="name">res.partner.select2</field>
             <field name="model">res.partner</field>
