@@ -1,12 +1,32 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
+    <record id='view_sale_contract_tree' model='ir.ui.view'>
+        <field name="name">sale.contract.tree</field>
+        <field name="model">sale.contract</field>
+        <field name="arch" type="xml">
+            <tree string="Contract logs" decoration-muted="state=='closed'">
+                <field name="name" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
     <record id="view_sale_contract_form" model="ir.ui.view">
             <field name="name">sale.contract.form</field>
             <field name="model">sale.contract</field>
             <field name="priority">1</field>
             <field name="arch" type="xml">
-                <form string="Bank Statement">
+                <form string="Contract">
+                    <header>
+                        <button modifiers="{'invisible': [['state', '=', 'closed']]}" name="contract_close" states="open" type="object" class="oe_highlight" string="Terminate Contract" groups="sales_team.group_sale_manager"/>
+                        <button modifiers="{'invisible': [['state', '=', 'closed']]}" name="contract_close" states="toclose" type="object" class="oe_highlight" string="Terminate Contract" groups="sales_team.group_sale_manager"/>
+                        <button modifiers="{'invisible': [['state', 'not in', ['closed']]]}" name="contract_open" states="closed" type="object" class="oe_highlight" string="Set Contract In Progress" groups="sales_team.group_sale_manager"/>
+                        <button class="oe_highlight" name="act_renew_contract" type="object" string="Renew Contract" help="Create a new contract automatically with all the same informations except for the date that will start at the end of current contract" groups="sales_team.group_sale_manager"/>
+                        <field name="state" widget="statusbar" />
+                    </header>
                 <sheet>
                     <div class="oe_title">
                         <label for="name" class="oe_edit_only" string="Contract Name" ></label>
@@ -16,6 +36,8 @@
                     </div>
                     <group>
                         <group>
+                            <field name="factory_id" />
+                            <field name="park_industry_id" />
                             <field name="start_date" />
                             <field name="end_date" />
                             <field name="quantity" />

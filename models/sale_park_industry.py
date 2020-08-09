@@ -8,7 +8,7 @@ class SaleParkIndustry(models.Model):
     # currency_80_pc = fields.Float( string="Currency 80%", required=True, default=0 )
     # currency_20_pc = fields.Float( string="Currency 20%", required=True, default=0 )
     factories_ids = fields.One2many(
-        'res.partner', 
-        'park_industry_id', 
+        'res.partner',
+        'park_industry_id',
         string='Factory lines',
-        copy=True)
+        copy=True )

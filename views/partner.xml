@@ -9,7 +9,6 @@
 			<field name="arch" type="xml">
 				<field name="website" position="after">
 					<field name="park_industry_id" />
-					<field name="contract_id" />
 				</field>
 			</field>
 		</record>

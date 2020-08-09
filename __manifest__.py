@@ -15,6 +15,8 @@
         'views/sale_park_industry.xml',
         'views/partner.xml',
         'views/sale_contract.xml',
+        
+        "security/ir.model.access.csv",
     ],
     'qweb': [
         # 'static/src/xml/cashback_templates.xml',

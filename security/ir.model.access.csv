@@ -1,0 +1,5 @@
+id,name,model_id/id,group_id/id,perm_read,perm_write,perm_create,perm_unlink
+sale_contract_acces_right_manager,sale_contract_acces_right_manager,model_sale_contract,sales_team.group_sale_manager,1,1,1,1
+sale_park_industry_acces_right_manager,sale_park_industry_acces_right_manager,model_sale_park_industry,sales_team.group_sale_manager,1,1,1,1
+sale_contract_acces_right_all,sale_contract_acces_right_all,model_sale_contract,,1,0,0,0
+sale_park_industry_acces_right_all,sale_park_industry_acces_right_all,model_sale_park_industry,,1,0,0,0
