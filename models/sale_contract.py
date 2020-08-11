@@ -1,6 +1,9 @@
 from odoo import api, exceptions, fields, models, _
 import time
+from datetime import datetime
+import logging
 
+_logger = logging.getLogger(__name__)
 
 class SaleContract(models.Model):
     _name = "sale.contract"
@@ -30,10 +33,11 @@ class SaleContract(models.Model):
 
     name = fields.Char(string="Name", size=100 , required=True)
     factory_id	= fields.Many2one('res.partner', string='Factory', required=True, domain=[ ('park_industry_id','!=',False)], ondelete="restrict" )
-    park_industry_id	= fields.Many2one('sale.park.industry', related="factory_id.park_industry_id", string='Park Industry', readonly=True,  ondelete="restrict" )
+    park_industry_id = fields.Many2one('sale.park.industry', related="factory_id.park_industry_id", string='Park Industry', readonly=True,  ondelete="restrict" )
 
     start_date = fields.Date('Start Date', help='',  default=time.strftime("%Y-%m-%d") )
     end_date = fields.Date('End Date', help='',  default=time.strftime("%Y-%m-%d") )
+    is_expired = fields.Boolean( string="Progress", readonly=True, default=False, compute="_set_is_expired" )
 
     base_price = fields.Float( string="Base Price", required=True, default=0, digits=0 )
     ni_price_adjustment_bonus = fields.Float( string="Nickel Price Adjustment Bonus", required=True, default=0, digits=0 )
@@ -54,6 +58,8 @@ class SaleContract(models.Model):
     moisture_spec_to = fields.Float( string="To", required=True, default=0, digits=0 )
     mineral_spec_from = fields.Float( string="From", required=True, default=0, digits=0 )
     mineral_spec_to = fields.Float( string="To", required=True, default=0, digits=0 )
+    
+    progress = fields.Float( string="Progress", readonly=True, default=0, compute="_set_progress" )
 
     state = fields.Selection([
         ('open', 'In Progress'),
@@ -65,6 +71,23 @@ class SaleContract(models.Model):
         (_cek_moisture, 'Spesifikasi Moisture Tidak Valid', ['moisture_spec_from','moisture_spec_to'] ),
         (_cek_mineral, 'Spesifikasi SiO2/MgO Tidak Valid', ['mineral_spec_from','mineral_spec_to'] )
         ]
+    
+    @api.depends("end_date")
+    def _set_is_expired(self):
+        for rec in self:
+            end_date = datetime.strptime(rec.end_date, '%Y-%m-%d')
+            _logger.warning( end_date )
+            _logger.warning( datetime.today() )
+            _logger.warning( datetime.today() > end_date )
+            rec.is_expired = datetime.today() > end_date
+
+    @api.depends("quantity")
+    def _set_progress(self):
+        for rec in self:
+            ShippingSudo = self.env['shipping.shipping'].sudo()
+            shipping_ids = ShippingSudo.search([ ("sale_contract_id", '=', rec.id ) ])
+            shipping_quantity = sum([ shipping.quantity for shipping in shipping_ids ])
+            rec.progress = shipping_quantity /rec.quantity * 100
 
     @api.multi
     def contract_open(self):
@@ -85,13 +108,9 @@ class SaleContract(models.Model):
             # enddate = fields.Date.from_string(element.expiration_date)
             # diffdate = (enddate - startdate)
             default = {
-                # 'date': fields.Date.context_today(self),
-                # 'start_date': fields.Date.to_string(fields.Date.from_string(element.expiration_date) + relativedelta(days=1)),
-                # 'expiration_date': fields.Date.to_string(enddate + diffdate),
                 'name': element.name + "(RENEW)",
             }
             newid = element.copy(default).id
-            # newid = element.copy( ).id
             element.contract_close( )
         return {
             'name': _("Renew Contract"),

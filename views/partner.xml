@@ -2,8 +2,8 @@
 	<data>
 		
 		<!-- tambahi field Park Industry di form-->
-		<record id="partner_instructor" model="ir.ui.view">
-			<field name="name">partner.instructor</field>
+		<record id="partner_park_industry" model="ir.ui.view">
+			<field name="name">partner.park_industry</field>
 			<field name="model">res.partner</field>
 			<field name="inherit_id" ref="base.view_partner_form" />
 			<field name="arch" type="xml">
