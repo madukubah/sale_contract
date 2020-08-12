@@ -17,6 +17,8 @@
         'views/sale_contract.xml',
         
         "security/ir.model.access.csv",
+
+        "data/contract_data.xml",
     ],
     'qweb': [
         # 'static/src/xml/cashback_templates.xml',

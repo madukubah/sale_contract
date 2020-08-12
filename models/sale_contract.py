@@ -1,9 +1,7 @@
 from odoo import api, exceptions, fields, models, _
 import time
 from datetime import datetime
-import logging
-
-_logger = logging.getLogger(__name__)
+from odoo.addons import decimal_precision as dp
 
 class SaleContract(models.Model):
     _name = "sale.contract"
@@ -38,26 +36,34 @@ class SaleContract(models.Model):
     start_date = fields.Date('Start Date', help='',  default=time.strftime("%Y-%m-%d") )
     end_date = fields.Date('End Date', help='',  default=time.strftime("%Y-%m-%d") )
     is_expired = fields.Boolean( string="Progress", readonly=True, default=False, compute="_set_is_expired" )
-
-    base_price = fields.Float( string="Base Price", required=True, default=0, digits=0 )
-    ni_price_adjustment_bonus = fields.Float( string="Nickel Price Adjustment Bonus", required=True, default=0, digits=0 )
-    ni_price_adjustment_penalty = fields.Float( string="Nickel Price Adjustment Penalty", required=True, default=0, digits=0 )
-
-    fe_price_adjustment_bonus = fields.Float( string="Fe Price Adjustment Bonus", required=True, default=0, digits=0 )
-    fe_price_adjustment_penalty = fields.Float( string="Fe Price Adjustment Penalty", required=True, default=0, digits=0 )
-
-    moisture_price_adjustment_bonus = fields.Float( string="Moisture Price Adjustment Bonus", required=True, default=0, digits=0 )
-    moisture_price_adjustment_penalty = fields.Float( string="Moisture Price Adjustment Penalty", required=True, default=0, digits=0 )
-
     quantity = fields.Float( string="Quantity (WMT)", required=True, default=0, digits=0 )
 
-    ni_spec = fields.Float( string="Ni Specification (%)", required=True, default=0, digits=0 )
-    fe_spec_from = fields.Float( string="From", required=True, default=0, digits=0 )
-    fe_spec_to = fields.Float( string="To", required=True, default=0, digits=0 )
-    moisture_spec_from = fields.Float( string="From", required=True, default=0, digits=0 )
-    moisture_spec_to = fields.Float( string="To", required=True, default=0, digits=0 )
-    mineral_spec_from = fields.Float( string="From", required=True, default=0, digits=0 )
-    mineral_spec_to = fields.Float( string="To", required=True, default=0, digits=0 )
+    base_price = fields.Float( string="Base Price (USD)", required=True, default=0, digits=0 )
+
+    ni_spec = fields.Float( string="Ni Specification (%)", required=True, default=0, digits=dp.get_precision('Contract') )
+    ni_price_adjustment_bonus = fields.Float( string="Nickel Price Adjustment Bonus", required=True, default=0, digits=dp.get_precision('Contract') )
+    ni_price_adjustment_penalty = fields.Float( string="Nickel Price Adjustment Penalty", required=True, default=0, digits=dp.get_precision('Contract') )
+    ni_price_adjustment_level = fields.Float( string="Nickel Price Adjustment Bonus Levels", required=True, default=0, digits=dp.get_precision('Contract') )
+
+    use_rejection = fields.Boolean( string="Use Rejection", default=False )
+    ni_rejection_spec = fields.Float( string="Rejection Specification (%)", required=True, default=0, digits=dp.get_precision('Contract') )
+    ni_price_adjustment_rejection = fields.Float( string="Price Adjustment", required=True, default=0, digits=dp.get_precision('Contract') )
+    ni_price_adjustment_rejection_level = fields.Float( string="Price Adjustment Levels (%)", required=True, default=0, digits=dp.get_precision('Contract') )
+
+    fe_spec_from = fields.Float( string="From", required=True, default=0, digits=dp.get_precision('Contract') )
+    fe_spec_to = fields.Float( string="To", required=True, default=0, digits=dp.get_precision('Contract') )
+    fe_price_adjustment_bonus = fields.Float( string="Fe Price Adjustment Bonus", required=True, default=0, digits=dp.get_precision('Contract') )
+    fe_price_adjustment_penalty = fields.Float( string="Fe Price Adjustment Penalty", required=True, default=0, digits=dp.get_precision('Contract') )
+    fe_price_adjustment_level = fields.Float( string="Fe Price Adjustment Levels", required=True, default=0, digits=dp.get_precision('Contract') )
+
+    moisture_spec_from = fields.Float( string="From", required=True, default=0, digits=dp.get_precision('Contract') )
+    moisture_spec_to = fields.Float( string="To", required=True, default=0, digits=dp.get_precision('Contract') )
+    moisture_price_adjustment_bonus = fields.Float( string="Moisture Price Adjustment Bonus", required=True, default=0, digits=dp.get_precision('Contract') )
+    moisture_price_adjustment_penalty = fields.Float( string="Moisture Price Adjustment Penalty", required=True, default=0, digits=dp.get_precision('Contract') )
+    moisture_price_adjustment_level = fields.Float( string="Moisture Price Adjustment Levels", required=True, default=0, digits=dp.get_precision('Contract') )
+    
+    mineral_spec_from = fields.Float( string="From", required=True, default=0, digits=dp.get_precision('Contract') )
+    mineral_spec_to = fields.Float( string="To", required=True, default=0, digits=dp.get_precision('Contract') )
     
     progress = fields.Float( string="Progress", readonly=True, default=0, compute="_set_progress" )
 
@@ -76,9 +82,6 @@ class SaleContract(models.Model):
     def _set_is_expired(self):
         for rec in self:
             end_date = datetime.strptime(rec.end_date, '%Y-%m-%d')
-            _logger.warning( end_date )
-            _logger.warning( datetime.today() )
-            _logger.warning( datetime.today() > end_date )
             rec.is_expired = datetime.today() > end_date
 
     @api.depends("quantity")
@@ -87,6 +90,7 @@ class SaleContract(models.Model):
             ShippingSudo = self.env['shipping.shipping'].sudo()
             shipping_ids = ShippingSudo.search([ ("sale_contract_id", '=', rec.id ) ])
             shipping_quantity = sum([ shipping.quantity for shipping in shipping_ids ])
+            rec.quantity = rec.quantity if rec.quantity else 1.0
             rec.progress = shipping_quantity /rec.quantity * 100
 
     @api.multi
