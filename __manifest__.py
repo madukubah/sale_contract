@@ -9,12 +9,15 @@
         'account',
         'product',
         'sale',
+        'mining_qaqc',
     ],
     'data': [
         'views/menu.xml',
         'views/sale_park_industry.xml',
         'views/partner.xml',
         'views/sale_contract.xml',
+        "views/contract_element_spec.xml",
+        "views/contract_element_spec_rule.xml",
         
         "security/ir.model.access.csv",
 

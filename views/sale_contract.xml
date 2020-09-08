@@ -31,138 +31,36 @@
                         <span class="label label-danger" attrs="{'invisible': [ ('is_expired', '=', False) ] }">Contract Expired</span>
                         <field name="state" widget="statusbar" />
                     </header>
-                <sheet>
-                    <div class="oe_title">
-                        <label for="name" class="oe_edit_only" string="Contract Name" ></label>
-                        <h1>
-                            <field name="name" />
-                        </h1>
-                    </div>
-                    <group>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only" string="Contract Name" ></label>
+                            <h1>
+                                <field name="name" />
+                            </h1>
+                        </div>
                         <group>
-                            <field name="is_expired" invisible="1" />
-                            <field name="factory_id" />
-                            <field name="park_industry_id" />
-                            <field name="start_date" />
-                            <field name="end_date" />
-                            <field name="quantity" />
-                            <field name="progress" widget="progressbar" />
-                            <field name="base_price" />
-                        </group>
-                    </group>
-
-                    <notebook>
-                        <!-- Nickel -->
-                        <page string="Nickel"  >
-                            <h2 class="oe_title" > Specification </h2>
                             <group>
-                                <group>
-                                    <field name="ni_spec" />
-                                </group>
+                                <field name="is_expired" invisible="1" />
+                                <field name="factory_id" />
+                                <field name="park_industry_id" />
+                                <field name="start_date" />
+                                <field name="end_date" />
+                                <field name="quantity" />
+                                <field name="progress" widget="progressbar" />
+                                <field name="base_price" />
                             </group>
-                            <h2 class="oe_title" > Price Adjustment </h2>
-                            <!--  -->
-                            <group class="oe_title">
-                                <group>
-                                    <field  name="ni_price_adjustment_bonus" string="Bonus (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="ni_price_adjustment_penalty" string="Penalty (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="ni_price_adjustment_level" string="Levels (%)" />
-                                </group>
-                            </group>
-                            <h2 class="oe_title" > Rejection </h2>
-                            <group class="oe_title" >
-                                <group>
-                                    <field  name="use_rejection" />
-                                </group>
-                            </group>
-                            <group class="oe_title" attrs="{'invisible': [ ('use_rejection', '=', False) ] }" >
-                                <group>
-					                <field name="ni_rejection_spec" />
-                                </group>
-                                <group>
-                                    <field  name="ni_price_adjustment_rejection" string="Price Adjustment (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="ni_price_adjustment_rejection_level" />
-                                </group>
-                            </group>
-                            
-                        </page>
-                        <!-- FE -->
-                        <page string="Fe"  >
-                            <h2 class="oe_title" > Specification </h2>
-                            <group class="oe_title">
-                                <label for="fe_spec_from" string="Fe Specification (%)" ></label>
-                                <group>
-                                    <field  name="fe_spec_from" />
-                                </group>
-                                <group>
-                                    <field name="fe_spec_to" />
-                                </group>
-                            </group>
-                            <!--  -->
-                            <h2 class="oe_title" > Price Adjustment </h2>
-                            <group class="oe_title">
-                                <label for="fe_price_adjustment_bonus" string="Fe Price Adjustment" ></label>
-                                <group>
-                                    <field  name="fe_price_adjustment_bonus" string="Bonus (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="fe_price_adjustment_penalty" string="Penalty (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="fe_price_adjustment_level" string="Levels (%)" />
-                                </group>
-                            </group>
-                            
-                        </page>
-                        <!-- Moisture -->
-                        <page string="Moisture"  >
-                            <h2 class="oe_title" > Specification </h2>
-                            <group class="oe_title">
-                                <label for="moisture_spec_from" string="Moisture Specification (%)" ></label>
-                                <group>
-                                    <field  name="moisture_spec_from" />
-                                </group>
-                                <group>
-                                    <field name="moisture_spec_to" />
-                                </group>
-                            </group>
-                            <!--  -->
-                            <h2 class="oe_title" > Price Adjustment </h2>
-                            <group class="oe_title">
-                                <label for="moisture_price_adjustment_bonus" string="Moisture Price Adjustment" ></label>
-                                <group>
-                                    <field  name="moisture_price_adjustment_bonus" string="Bonus (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="moisture_price_adjustment_penalty" string="Penalty (USD)" />
-                                </group>
-                                <group>
-                                    <field  name="moisture_price_adjustment_level" string="Levels (%)" />
-                                </group>
-                            </group>
-                        </page>
-                        <!-- SiO2/MgO -->
-                        <page string="SiO2/MgO"  >
-                            <h2 class="oe_title" > Specification </h2>
-                            <group class="oe_title">
-                                <label for="mineral_spec_from" string="SiO2/MgO Specification" ></label>
-                                <group>
-                                    <field  name="mineral_spec_from" />
-                                </group>
-                                <group>
-                                    <field name="mineral_spec_to" />
-                                </group>
-                            </group>
-                        </page>
-                    </notebook>
-                    
-                </sheet>
+                        </group>
+
+                        <notebook>
+                            <page string="Specifications"  >
+                                <field name="specifications" >
+                                    <tree string="Specifications" >
+                                        <field name="element_id" />
+                                    </tree>
+                                </field >
+                            </page>
+                        </notebook>
+                    </sheet>
                 </form>
             </field>
     </record>

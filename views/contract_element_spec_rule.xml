@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_contract_element_spec_rule_form" model="ir.ui.view">
+            <field name="name">sale.contract.element.spec.rule.form</field>
+            <field name="model">sale.contract.element.spec.rule</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Specification Rule">
+                <sheet>
+                    <group>
+                        <field name="element_spec_id" invisible="1" />
+                        <field name="name" />
+                        <field name="rule" />
+                        <field name="spec" />
+                        <field name="price" />
+                        <field name="level" />
+                    </group>
+                </sheet>
+                </form>
+            </field>
+    </record>
+</odoo>

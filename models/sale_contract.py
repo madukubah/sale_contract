@@ -7,28 +7,6 @@ class SaleContract(models.Model):
     _name = "sale.contract"
     _order = "id desc"
 
-    @api.multi
-    def _cek_fe(self):
-        for contract in self:
-            if contract.fe_spec_to < contract.fe_spec_from :
-                return False 
-
-        return True
-    
-    @api.multi
-    def _cek_moisture(self):
-        for contract in self:
-            if contract.moisture_spec_to < contract.moisture_spec_from :
-                return False 
-        return True
-
-    @api.multi
-    def _cek_mineral(self):
-        for contract in self:
-            if contract.mineral_spec_to < contract.mineral_spec_from :
-                return False 
-        return True
-
     name = fields.Char(string="Name", size=100 , required=True)
     factory_id	= fields.Many2one('res.partner', string='Factory', required=True, domain=[ ('park_industry_id','!=',False)], ondelete="restrict" )
     park_industry_id = fields.Many2one('sale.park.industry', related="factory_id.park_industry_id", string='Park Industry', readonly=True,  ondelete="restrict" )
@@ -40,31 +18,12 @@ class SaleContract(models.Model):
 
     base_price = fields.Float( string="Base Price (USD)", required=True, default=0, digits=0 )
 
-    ni_spec = fields.Float( string="Ni Specification (%)", required=True, default=0, digits=dp.get_precision('Contract') )
-    ni_price_adjustment_bonus = fields.Float( string="Nickel Price Adjustment Bonus", required=True, default=0, digits=dp.get_precision('Contract') )
-    ni_price_adjustment_penalty = fields.Float( string="Nickel Price Adjustment Penalty", required=True, default=0, digits=dp.get_precision('Contract') )
-    ni_price_adjustment_level = fields.Float( string="Nickel Price Adjustment Bonus Levels", required=True, default=0, digits=dp.get_precision('Contract') )
+    specifications = fields.One2many(
+        'sale.contract.element.spec',
+        'sale_contract_id',
+        string='Specifications',
+        copy=True )
 
-    use_rejection = fields.Boolean( string="Use Rejection", default=False )
-    ni_rejection_spec = fields.Float( string="Rejection Specification (%)", required=True, default=0, digits=dp.get_precision('Contract') )
-    ni_price_adjustment_rejection = fields.Float( string="Price Adjustment", required=True, default=0, digits=dp.get_precision('Contract') )
-    ni_price_adjustment_rejection_level = fields.Float( string="Price Adjustment Levels (%)", required=True, default=0, digits=dp.get_precision('Contract') )
-
-    fe_spec_from = fields.Float( string="From", required=True, default=0, digits=dp.get_precision('Contract') )
-    fe_spec_to = fields.Float( string="To", required=True, default=0, digits=dp.get_precision('Contract') )
-    fe_price_adjustment_bonus = fields.Float( string="Fe Price Adjustment Bonus", required=True, default=0, digits=dp.get_precision('Contract') )
-    fe_price_adjustment_penalty = fields.Float( string="Fe Price Adjustment Penalty", required=True, default=0, digits=dp.get_precision('Contract') )
-    fe_price_adjustment_level = fields.Float( string="Fe Price Adjustment Levels", required=True, default=0, digits=dp.get_precision('Contract') )
-
-    moisture_spec_from = fields.Float( string="From", required=True, default=0, digits=dp.get_precision('Contract') )
-    moisture_spec_to = fields.Float( string="To", required=True, default=0, digits=dp.get_precision('Contract') )
-    moisture_price_adjustment_bonus = fields.Float( string="Moisture Price Adjustment Bonus", required=True, default=0, digits=dp.get_precision('Contract') )
-    moisture_price_adjustment_penalty = fields.Float( string="Moisture Price Adjustment Penalty", required=True, default=0, digits=dp.get_precision('Contract') )
-    moisture_price_adjustment_level = fields.Float( string="Moisture Price Adjustment Levels", required=True, default=0, digits=dp.get_precision('Contract') )
-    
-    mineral_spec_from = fields.Float( string="From", required=True, default=0, digits=dp.get_precision('Contract') )
-    mineral_spec_to = fields.Float( string="To", required=True, default=0, digits=dp.get_precision('Contract') )
-    
     progress = fields.Float( string="Progress", readonly=True, default=0, compute="_set_progress" )
 
     state = fields.Selection([
@@ -72,12 +31,6 @@ class SaleContract(models.Model):
         ('closed', 'Terminated')
         ], string='Status', readonly=True, copy=False, index=True, track_visibility='onchange', default='open')
 
-    _constraints = [ 
-        (_cek_fe, 'Spesifikasi Fe Tidak Valid', ['fe_spec_from','fe_spec_to'] ) ,
-        (_cek_moisture, 'Spesifikasi Moisture Tidak Valid', ['moisture_spec_from','moisture_spec_to'] ),
-        (_cek_mineral, 'Spesifikasi SiO2/MgO Tidak Valid', ['mineral_spec_from','mineral_spec_to'] )
-        ]
-    
     @api.depends("end_date")
     def _set_is_expired(self):
         for rec in self:
@@ -87,7 +40,7 @@ class SaleContract(models.Model):
     @api.depends("quantity")
     def _set_progress(self):
         for rec in self:
-            ShippingSudo = self.env['shipping.shipping'].sudo()
+            ShippingSudo = self.env['shipping.order'].sudo()
             shipping_ids = ShippingSudo.search([ ("sale_contract_id", '=', rec.id ) ])
             shipping_quantity = sum([ shipping.quantity for shipping in shipping_ids ])
             rec.quantity = rec.quantity if rec.quantity else 1.0
