@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 {
-    'name': 'Sale Contract',
+    'name': 'Sale Contract for Mining Industry',
     'version': '1.0',
     'author': 'Technoindo.com',
     'category': 'Sales Management',
@@ -9,7 +9,7 @@
         'account',
         'product',
         'sale',
-        'mining_qaqc',
+        'mining_qaqc_chemical_element',
     ],
     'data': [
         'views/menu.xml',

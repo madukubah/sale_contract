@@ -33,18 +33,18 @@ class SaleContract(models.Model):
 
     @api.depends("end_date")
     def _set_is_expired(self):
-        for rec in self:
-            end_date = datetime.strptime(rec.end_date, '%Y-%m-%d')
-            rec.is_expired = datetime.today() > end_date
+        for record in self:
+            end_date = datetime.strptime(record.end_date, '%Y-%m-%d')
+            record.is_expired = datetime.today() > end_date
 
     @api.depends("quantity")
     def _set_progress(self):
-        for rec in self:
+        for record in self:
             ShippingSudo = self.env['shipping.order'].sudo()
-            shipping_ids = ShippingSudo.search([ ("sale_contract_id", '=', rec.id ) ])
+            shipping_ids = ShippingSudo.search([ ("sale_contract_id", '=', record.id ) ])
             shipping_quantity = sum([ shipping.quantity for shipping in shipping_ids ])
-            rec.quantity = rec.quantity if rec.quantity else 1.0
-            rec.progress = shipping_quantity /rec.quantity * 100
+            record.quantity = record.quantity if record.quantity else 1.0
+            record.progress = shipping_quantity /record.quantity * 100
 
     @api.multi
     def contract_open(self):
