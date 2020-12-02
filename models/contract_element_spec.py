@@ -19,35 +19,36 @@ class ContractElementSpec(models.Model):
         for rule in self.rules :
             diff = abs( _coa_element_spec.spec - rule.spec )
             levels = diff / rule.level
+            result = {
+                'name': "None",
+                'price': 0,
+            }
             if rule.rule == "<" :
                 if _coa_element_spec.spec < rule.spec:
-                    return {
+                    result = {
                         'name': rule.name,
                         'price': rule.price * levels,
                     }
             if rule.rule == "<=" :
                 if _coa_element_spec.spec <= rule.spec:
-                    return {
+                    result = {
                         'name': rule.name,
                         'price': rule.price * levels,
                     }
             if rule.rule == ">" :
                 if _coa_element_spec.spec > rule.spec:
-                    return {
+                    result = {
                         'name': rule.name,
                         'price': rule.price * levels,
                     }
             if rule.rule == ">=" :
                 if _coa_element_spec.spec >= rule.spec:
-                    return {
+                    result = {
                         'name': rule.name,
                         'price': rule.price * levels,
                     }
 
-        return {
-            'name': "None",
-            'price': 0,
-        }
+        return result
         
 
     
