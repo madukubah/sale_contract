@@ -24,7 +24,7 @@ class SaleContract(models.Model):
     shipping_price = fields.Float( string="Shipping Price", required=True, default=0, digits=0 )
     corrective_factor = fields.Float( string="Corrective Factor (%)", required=True, default=0, digits=0 )
 
-    XX = fields.Float( string="XX", required=True, default=0, digits=0, compute="compute_XX" )
+    # XX = fields.Float( string="XX", required=True, default=0, digits=0, compute="compute_XX" )
 
     base_price_select = fields.Selection([
         ('fix', 'Fixed Amount'),
@@ -109,9 +109,9 @@ class SaleContract(models.Model):
             'context': {'active_id': newid},
         }
     
-    def compute_XX(self):
+    # def compute_XX(self):
         # self.XX = 100
-        self.XX = self.get_base_price_amount( 1 , self.id)
+        # self.XX = self.get_base_price_amount( 1 , self.id)
 
     @api.model
     def get_base_price_amount(self, qaqc_coa_id, contract_id):

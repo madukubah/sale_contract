@@ -54,7 +54,7 @@
                                 <field name="base_price_python_compute" attrs="{'invisible':[('base_price_select','&lt;&gt;','code')], 'required': [('base_price_select','=','code')]}" />
 
                                 <field name="progress" widget="progressbar" />
-                                <field name="XX" />
+                                <!-- <field name="XX" /> -->
                             </group>
                         </group>
                         <notebook>
