@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id='view_contract_base_price_component_tree' model='ir.ui.view'>
+        <field name="name">sale.contract.base.price.component.tree</field>
+        <field name="model">sale.contract.base.price.component</field>
+        <field name="arch" type="xml">
+            <tree string="Base Price" >
+                <field name="element_id" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="view_contract_base_price_component_form" model="ir.ui.view">
+            <field name="name">sale.contract.base.price.component.form</field>
+            <field name="model">sale.contract.base.price.component</field>
+            <field name="priority">1</field>
+            <field name="arch" type="xml">
+                <form string="Base Price">
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="sale_contract_id" invisible="1" />
+                            <field name="rule" />
+                            <field name="element_id" />
+                            <field name="spec" />
+                        </group>
+                    </group>
+                </sheet>
+                </form>
+            </field>
+    </record>
+</odoo>

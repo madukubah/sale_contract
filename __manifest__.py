@@ -18,6 +18,7 @@
         'views/sale_contract.xml',
         "views/contract_element_spec.xml",
         "views/contract_element_spec_rule.xml",
+        'views/contract_base_price_component.xml',
         
         "security/ir.model.access.csv",
 
