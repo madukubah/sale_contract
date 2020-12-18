@@ -49,16 +49,17 @@
                                 <field name="hma_price" />
                                 <field name="shipping_price" />
                                 <field name="corrective_factor" />
-                                <field name="base_price_select" />
-                                <field name="base_price" attrs="{'invisible':[('base_price_select','&lt;&gt;','fix')], 'required': [('base_price_select','=','fix')]}" />
-                                <field name="base_price_python_compute" attrs="{'invisible':[('base_price_select','&lt;&gt;','code')], 'required': [('base_price_select','=','code')]}" />
+                                <!-- <field name="base_price_select" />
+                                <field name="base_price" attrs="{'invisible':[('base_price_select','&lt;&gt;','fix')], 'required': [('base_price_select','=','fix')]}" /> -->
+                                <!-- <field name="base_price_python_compute" attrs="{'invisible':[('base_price_select','&lt;&gt;','code')], 'required': [('base_price_select','=','code')]}" /> -->
 
                                 <field name="progress" widget="progressbar" />
                                 <!-- <field name="XX" /> -->
                             </group>
                         </group>
                         <notebook>
-                            <page string="Base Price" attrs="{'invisible':[('base_price_select','&lt;&gt;','code')], 'required': [('base_price_select','=','code')]}" >
+                            <!-- <page string="Base Price" attrs="{'invisible':[('base_price_select','&lt;&gt;','code')], 'required': [('base_price_select','=','code')]}" > -->
+                            <page string="Base Price" >
                                 <field name="base_price_components" >
                                     <tree string="Base Price" >
                                         <field name="rule" />
