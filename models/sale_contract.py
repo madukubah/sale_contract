@@ -20,7 +20,7 @@ class SaleContract(models.Model):
     is_expired = fields.Boolean( string="Progress", readonly=True, default=False, compute="_set_is_expired" )
     quantity = fields.Float( string="Quantity (WMT)", required=True, default=0, digits=0 )
 
-    hma_price = fields.Float( string="HMA Price (IDR)", required=True, default=0, digits=0 )
+    hma_price = fields.Float( string="HMA Price (USD)", required=True, default=0, digits=0 )
     shipping_price = fields.Float( string="Shipping Cost", required=True, default=0, digits=0 )
     corrective_factor = fields.Float( string="Corrective Factor (%)", required=True, default=0, digits=0 )
 
@@ -142,7 +142,6 @@ class SaleContract(models.Model):
     def compute_base_price(self, localdict):
         self.ensure_one()
         base_price_components = localdict['base_price_components']
-        qaqc_coa = localdict['qaqc_coa']
         qaqc_coa = localdict['qaqc_coa']
         sale_contract = self
         price_component_dict = {
