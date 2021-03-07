@@ -114,7 +114,7 @@ class SaleContract(models.Model):
         # self.XX = self.get_base_price_amount( 1 , self.id)
 
     @api.model
-    def get_base_price_amount(self, qaqc_coa_id, contract_id):
+    def get_base_price_amount(self, qaqc_coa_id, contract_id, hma_price = 0 ):
 
         class BrowsableObject(object):
             def __init__(self, dict, env):
@@ -135,6 +135,7 @@ class SaleContract(models.Model):
             'qaqc_coa': qaqc_coas, 
             'sale_contract': sale_contracts, 
             'base_price_components': base_price_components, 
+            'hma_price': hma_price, 
         }
 
         return self.compute_base_price(baselocaldict)
@@ -156,7 +157,8 @@ class SaleContract(models.Model):
                 price_component_dict[ base_price_component.rule ] = []
                 price_component_dict[ base_price_component.rule ] += [ base_price_component ]
 
-        hma = sale_contract.hma_price
+        # hma = sale_contract.hma_price
+        hma = localdict['hma_price']
         shipping_price = sale_contract.shipping_price
         corrective_factor = sale_contract.corrective_factor
 

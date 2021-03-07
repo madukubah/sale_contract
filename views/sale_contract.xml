@@ -46,7 +46,7 @@
                                 <field name="start_date" />
                                 <field name="end_date" />
                                 <field name="quantity" />
-                                <field name="hma_price" />
+                                <field name="hma_price" invisible="1" />
                                 <field name="shipping_price" />
                                 <field name="corrective_factor" />
                                 <!-- <field name="base_price_select" />
