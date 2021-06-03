@@ -131,6 +131,7 @@ class SaleContract(models.Model):
         base_price_components = BrowsableObject(base_price_component, self.env)
         for base_price_component in base_price_components.dict :
             _logger.warning( base_price_component )
+            
         baselocaldict = {
             'qaqc_coa': qaqc_coas, 
             'sale_contract': sale_contracts, 
@@ -169,6 +170,8 @@ class SaleContract(models.Model):
             for element_spec in qaqc_coa.dict.element_specs :
                 if element_spec.element_id.id == main.element_id.id :
                     main_spec_qaqc = element_spec.spec
+                    if main_spec_qaqc <= main.spec :
+                        main_spec_qaqc = main.spec
             diff = main_spec_qaqc - main.spec
             corrective_factor = corrective_factor + ( diff * 10 ) 
             hpm_price = hma * ( corrective_factor/100 ) * ( main_spec_qaqc/100 )
@@ -186,6 +189,7 @@ class SaleContract(models.Model):
 
         result = hpm_price + shipping_price
         return result
+
     #TODO should add some checks on the type of result (should be float)
     # @api.multi
     # def compute_base_price(self, localdict):
